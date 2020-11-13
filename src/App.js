@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import {connect} from "react-redux"
+import * as actionCreator from "./store/actions/Action"
+import "./App.css"
+import logo from "./logo.svg"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+ class App extends Component {
+
+  render() {
+    return (
+      <div>
+        <div>Age: <span>{this.props.age}</span></div>
+        <button onClick={this.props.onAgeUP} >INCREMENT</button>
+        <button onClick={this.props.onAgeDown}>DECREMENT</button><hr></hr>
+       {this.props.loading && <img src={logo}></img>}
+      </div>
+    )
+  }
 }
 
-export default App;
+const mapStateToProps=(state)=>{
+  return{
+    age:state.age,
+    loading:state.loading
+  
+  }
+};
+const mapDispatchToProps=(dispatch,action)=>{
+  return{
+    onAgeUP:()=>dispatch(actionCreator.onAgeUP(1)),
+    onAgeDown:()=>dispatch(actionCreator.onAgeDown(1)),
+   
+  }
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(App);
+
